@@ -16,13 +16,21 @@
 
 		<div class="actions">
 			<button
+				class="cart-btn"
+				:disabled="!course.available"
+				@click="onAddToCart"
+			>
+				<span v-if="course.available">Add to Cart</span>
+				<span v-else>Sold Out</span>
+			</button>
+			<button
 				class="save-btn"
 				:class="{ saved: saved }"
 				:disabled="!course.available"
 				@click="onToggle"
+				title="Add to wishlist"
 			>
-				<span v-if="course.available">{{ saved ? 'Saved' : 'Save' }}</span>
-				<span v-else>Sold Out</span>
+				<span>♥</span>
 			</button>
 			<span v-if="!course.available" class="sold">Sold Out</span>
 		</div>
@@ -36,7 +44,7 @@ export default {
 		course: { type: Object, required: true },
 		saved: { type: Boolean, default: false }
 	},
-	emits: ['toggle-save'],
+	emits: ['toggle-save', 'add-to-cart'],
 	computed: {
 		formattedPrice() {
 			try {
@@ -61,6 +69,9 @@ export default {
 	methods: {
 		onToggle() {
 			this.$emit('toggle-save', this.course.id)
+		},
+		onAddToCart() {
+			this.$emit('add-to-cart', this.course.id)
 		}
 	}
 }
@@ -85,11 +96,11 @@ export default {
 	width: 72px;
 	height: 72px;
 	border-radius: 8px;
-	background: linear-gradient(135deg,#fde68a,#fca5a5);
+	background: linear-gradient(135deg,#b8860b,#d4af37);
 	display:flex;
 	align-items:center;
 	justify-content:center;
-	color: #333;
+	color: #0b0b0b;
 	font-weight:700;
 }
 .thumb-placeholder { font-size: 1.25rem }
@@ -97,9 +108,13 @@ export default {
 .chef { color: var(--color-text); font-size: 0.9rem }
 .details { display:flex; gap:0.75rem; font-size:0.9rem; color:var(--color-text) }
 .actions { display:flex; align-items:center; gap:0.5rem }
-.save-btn { padding: 0.5rem 0.85rem; border-radius: 6px; border: none; cursor: pointer; background: #2c9f6d; color: white }
-.save-btn.saved { background: #20674a }
-.save-btn:disabled { opacity: 0.6; cursor: not-allowed; background: #9aa39a }
+.cart-btn { padding: 0.5rem 0.85rem; border-radius: 6px; border: none; cursor: pointer; background: #d4af37; color: #0b0b0b; font-weight: 600 }
+.cart-btn:hover:not(:disabled) { background: #c99f2e }
+.cart-btn:disabled { opacity: 0.6; cursor: not-allowed; background: #999 }
+.save-btn { padding: 0.5rem 0.65rem; border-radius: 6px; border: 1px solid var(--color-border-hover); cursor: pointer; background: transparent; color: var(--color-text); font-size: 1rem }
+.save-btn.saved { background: rgba(212,175,55,0.2); color: #d4af37 }
+.save-btn:hover:not(:disabled) { background: rgba(212,175,55,0.1); color: #d4af37 }
+.save-btn:disabled { opacity: 0.6; cursor: not-allowed }
 .sold { color: #e2574c; font-weight:700 }
 
 @media (min-width: 768px) {

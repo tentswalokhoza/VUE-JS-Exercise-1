@@ -63,14 +63,14 @@ export default {
 	font-weight: 600;
 }
 .wishlist .heart {
-	color: #e2574c;
+	color: #d4af37;
 }
 .wishlist .count {
-	background: var(--vt-c-white-mute);
+	background: rgba(212,175,55,0.12);
 	padding: 0.15rem 0.5rem;
 	border-radius: 999px;
 	font-size: 0.95rem;
-	color: var(--vt-c-black);
+	color: #0b0b0b;
 }
 </style>
 
